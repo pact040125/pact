@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { UserType } from "../types";
 import { GraduationCap, User, Lock, Mail } from "lucide-react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -27,25 +28,28 @@ export function AuthForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const currYear = new Date().getFullYear();
   const [isLogin, setIsLogin] = useState(true);
+  const [role, setRole] = useState<UserType>("member");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [graduationYear, setGraduationYear] = useState(currYear);
-  const [mobile, setMobile] = useState<string>("");
-
+  const [alumniRole, setAlumniRole] = useState("");
+  const [mobile, setMobile]=useState<string>("")
+  
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const inviteToken = params.get("token");
     if (inviteToken) {
       setToken(inviteToken);
-      setIsLogin(false);
+      setRole("alumni")
+      setIsLogin(false)
     }
   }, [location.search]);
-  useEffect(() => {
-    if (errorMessage) {
-      setErrorMessage("");
+  useEffect(()=>{
+    if(errorMessage){
+      setErrorMessage("")
     }
-  }, [isLogin]);
+  },[isLogin])
 
   const navigate = useNavigate();
   const handleAuth = async () => {
@@ -138,10 +142,11 @@ export function AuthForm() {
                   <div className="grid grid-cols-2 gap-4 mt-1">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="flex items-center justify-center p-4 border rounded-lg transition-all duration-200 bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-transparent"
-                    >
-                      <User className="w-5 h-5 mr-2" />
-                      Member
+                      className="flex items-center justify-center p-4 border rounded-lg transition-all duration-200 bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-transparent">
+                      {}
+                      {role==="member"?<User className="w-5 h-5 mr-2" />:
+                      <GraduationCap className="w-5 h-5 mr-2" />}
+                      {role.toUpperCase()}
                     </motion.div>
                   </div>
                 </div>
@@ -176,73 +181,108 @@ export function AuthForm() {
                     <input
                       id="mobile"
                       name="mobile"
-                      type="tel"
+                      type="number"
                       required
                       className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
                       value={mobile}
-                      placeholder="Enter 10-digit mobile number"
-                      onChange={(e) => {
-                        const value = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 10);
-                        setMobile(value);
-                      }}
-                      pattern="\d{10}"
-                      maxLength={10}
+                      placeholder="+91 xxxxxxxxxx"
+                      onChange={(e) => setMobile(e.target.value)}
                     />
                   </div>
                 </motion.div>
 
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    variants={fadeIn}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    <div className="flex justify-between">
-                      <label className="text-sm font-medium text-gray-700">
-                        Role
-                      </label>
-                      <label className="text-sm font-medium text-gray-700">
-                        Year of Study
-                      </label>
-                    </div>
-                    <div className="flex gap-4 justify-between mt-1">
-                      <input
-                        type="text"
-                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50"
-                        defaultValue="Student"
-                        disabled
-                      />
-                      <div className="w-1/3">
-                        <Select
-                          value={4 - (graduationYear - currYear)}
-                          onChange={(e) =>
-                            setGraduationYear(
-                              currYear + (4 - Number(e.target.value))
-                            )
-                          }
-                          sx={{
-                            width: "100%",
-                            "& .MuiOutlinedInput-root": {
-                              "& fieldset": {
-                                borderColor: "rgb(209 213 219)",
-                              },
-                              "&:hover fieldset": {
-                                borderColor: "rgb(79 70 229)",
-                              },
-                            },
-                          }}
-                        >
-                          <MenuItem value={1}>I</MenuItem>
-                          <MenuItem value={2}>II</MenuItem>
-                          <MenuItem value={3}>III</MenuItem>
-                          <MenuItem value={4}>IV</MenuItem>
-                        </Select>
+                  {role === "member" ? (
+                    <motion.div
+                      variants={fadeIn}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+                      <div className="flex justify-between">
+                        <label className="text-sm font-medium text-gray-700">
+                          Role
+                        </label>
+                        <label className="text-sm font-medium text-gray-700">
+                          Year of Study
+                        </label>
                       </div>
-                    </div>
-                  </motion.div>
+                      <div className="flex gap-4 justify-between mt-1">
+                        <input
+                          type="text"
+                          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50"
+                          defaultValue="Student"
+                          disabled
+                        />
+                        <div className="w-1/3">
+                          <Select
+                            value={4 - (graduationYear - currYear)}
+                            onChange={(e) =>
+                              setGraduationYear(
+                                currYear + (4 - Number(e.target.value))
+                              )
+                            }
+                            sx={{
+                              width: "100%",
+                              "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                  borderColor: "rgb(209 213 219)",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "rgb(79 70 229)",
+                                },
+                              },
+                            }}
+                          >
+                            <MenuItem value={1}>I</MenuItem>
+                            <MenuItem value={2}>II</MenuItem>
+                            <MenuItem value={3}>III</MenuItem>
+                            <MenuItem value={4}>IV</MenuItem>
+                          </Select>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      variants={fadeIn}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="space-y-4"
+                    >
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Company Name
+                        </label>
+                        <input
+                          required
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Role in Company
+                        </label>
+                        <input
+                          required
+                          onChange={(e) => setAlumniRole(e.target.value)}
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Graduation Year
+                        </label>
+                        <input
+                          required
+                          onChange={(e) =>
+                            setGraduationYear(Number(e.target.value))
+                          }
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </motion.div>
             )}

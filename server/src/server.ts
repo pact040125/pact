@@ -5,6 +5,7 @@ import userRoutes from "./routes/userRoutes";
 import connectDB from "./config/db";
 import messageRoutes from "./routes/messageRoutes";
 import quizRoutes from "./routes/quizRoutes";
+import interviewRoutes from "./routes/interviewRoutes";
 
 dotenv.config();
 connectDB();
@@ -17,5 +18,6 @@ app.use(cors());
 app.use("/chat", messageRoutes);
 app.use("/users", userRoutes);
 app.use("/quiz", quizRoutes);
+app.use("/interview",interviewRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

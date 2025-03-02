@@ -84,6 +84,7 @@ export interface DashBoard {
   email: string;
   role: string;
   graduationYear: number;
+  mobile: number;
 }
 
 export interface Interview {

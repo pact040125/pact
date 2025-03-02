@@ -126,7 +126,7 @@ const Interviews = (): React.ReactNode => {
     useEffect(() => {
         apiService.getInterviews().then((res) => setInterviews(res.data));
     }, []);
-
+    console.log(interviews);
     const handleBookSlot = (interview: IInterview, slotIndex: number) => {
         setSelectedInterview(interview);
         setSelectedSlotIndex(slotIndex);

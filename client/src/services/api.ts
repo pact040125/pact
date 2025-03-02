@@ -12,8 +12,8 @@ const api = axios.create({
 });
 
 const apiService = {
-  createUser: async (username: string, email: string, password: string, graduationYear: number, role: string, alumniRole: string, token:string, mobile:string) => {
-    return await api.post(`/users/register${token ? `?token=${token}` : ""}`, { username, email, password, graduationYear, role, alumniRole, mobile });
+  createUser: async (username: string, email: string, password: string, graduationYear: number, token:string, mobile:string) => {
+    return await api.post(`/users/register${token ? `?token=${token}` : ""}`, { username, email, password, graduationYear, mobile });
   },
 
   loginUser: async (email: string, password: string) => {

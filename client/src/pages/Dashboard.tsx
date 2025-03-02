@@ -9,22 +9,25 @@ import {
   Trash2,
   Edit3,
   Save,
+  UserPlus,
 } from "lucide-react";
 import { SocialLink, DashBoard } from "../types";
 import apiService from "../services/api";
 import Navigation from "../components/Navigation";
-import {_admin} from "../services/user";
+import { _admin } from "../services/user";
 
 export default function Dashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const currentYear = new Date().getFullYear();
   const maxGraduationYear = currentYear + 4;
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [isCopied, setIsCopied] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<DashBoard>({
-    username: "John Doe",
-    email: "john.doe@example.com",
-    role: "member",
-    graduationYear: 2026,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+    graduationYear: user.graduationYear,
+    mobile: user.mobile,
   });
 
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([
@@ -162,6 +165,20 @@ export default function Dashboard() {
     setSocialLinks(socialLinks.filter((link) => link.id !== id));
   };
 
+  const handleInviteAlumni = async () => {
+    try {
+      const inviteLink = await apiService.genrateInviteLink();
+      console.log(inviteLink)
+      await navigator.clipboard.writeText(inviteLink.data.toString());
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false)
+      }, 2000);
+    } catch (error) {
+      console.error("Error generating invite link:", error);
+      alert("Failed to generate invite link.");
+    }
+  }
   return (
     <>
       <Navigation />
@@ -170,11 +187,10 @@ export default function Dashboard() {
           <h2 className="text-2xl font-bold">User Profile</h2>
           <button
             onClick={handleEditToggle}
-            className={`flex items-center px-4 py-2 rounded-md ${
-              isEditing
-                ? "bg-green-600 text-white hover:bg-green-700"
-                : "bg-indigo-600 text-white hover:bg-indigo-700"
-            }`}
+            className={`flex items-center px-4 py-2 rounded-md ${isEditing
+              ? "bg-green-600 text-white hover:bg-green-700"
+              : "bg-indigo-600 text-white hover:bg-indigo-700"
+              }`}
           >
             {isEditing ? (
               <>
@@ -196,9 +212,9 @@ export default function Dashboard() {
                 {userInfo.username
                   .split(" ")
                   .map((n) => n[0])
-                  .join("")}
+                  .join("").toUpperCase()}
               </div>
-              <h3 className="text-xl font-semibold">{userInfo.username}</h3>
+              <h3 className="text-xl font-semibold">{userInfo.username?.toUpperCase()}</h3>
               <p className="text-gray-500">{userInfo.email}</p>
             </div>
           </div>
@@ -218,7 +234,7 @@ export default function Dashboard() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 ) : (
-                  <p className="text-gray-900">{userInfo.username}</p>
+                  <p className="text-gray-900">{userInfo.username?.toUpperCase()}</p>
                 )}
               </div>
 
@@ -243,21 +259,9 @@ export default function Dashboard() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Role
                 </label>
-                {isEditing ? (
-                  <select
-                    name="role"
-                    value={tempUserInfo.role}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    <option value="member">Member</option>
-                    <option value="alumni">Alumni</option>
-                  </select>
-                ) : (
-                  <p className="text-gray-900">
-                    {userInfo.role === "member" ? "Member" : "Alumni"}
-                  </p>
-                )}
+                <p className="text-gray-900">
+                  {userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}
+                </p>
               </div>
 
               <div>
@@ -278,6 +282,17 @@ export default function Dashboard() {
                   <p className="text-gray-900">{userInfo.graduationYear}</p>
                 )}
               </div>
+              {userInfo.role === "admin" && <p className="flex items-center gap-2 bg-green-500 text-white py-1 px-2 rounded-md max-w-max cursor-pointer hover:bg-green-600" onClick={handleInviteAlumni}>
+                <UserPlus color="#fff" /> {isCopied ? "Link copied" : "Invite Alumni"}</p>
+              }
+              <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Mobile
+                  </label>
+                  <p className="text-gray-900">
+                    {userInfo.mobile || "xxxxxxxxxx"}
+                  </p>
+                </div>
             </div>
           </div>
         </div>

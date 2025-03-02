@@ -8,7 +8,8 @@ import {
   Settings,
   X,
   Loader2,
-  MessageSquare
+  MessageSquare,
+  ChevronDown,
 } from "lucide-react";
 import apiService from "../services/api";
 import { Message, CustomSettings, Theme } from "../types";
@@ -34,7 +35,7 @@ const themes = {
   },
 };
 
-export default function Chat() {
+export default function QAndAs() {
   const userData = localStorage.getItem("user");
   let email = "JohnDoe@gmail.com";
   let username = "You";
@@ -45,6 +46,7 @@ export default function Chat() {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [replyingTo, setReplyingTo]=useState("")
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== "undefined") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -53,7 +55,6 @@ export default function Chat() {
   });
   const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [replyingTo, setReplyingTo]=useState("")
   const [isSending, setIsSending] = useState(false);
   const [settings, setSettings] = useState<CustomSettings>({
     messageBubbleStyle: "rounded",
@@ -61,7 +62,6 @@ export default function Chat() {
     messageSpacing: "comfortable",
     showTimestamps: true,
   });
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const theme: Theme = isDark ? themes.dark : themes.light;
@@ -129,6 +129,7 @@ export default function Chat() {
         setNewMessage(message.message);
       } finally {
         setIsSending(false);
+        setReplyingTo("")
       }
     }
   };
@@ -368,7 +369,7 @@ export default function Chat() {
         {/* Messages Container */}
         <div
           ref={chatContainerRef}
-          className={`flex-1 ${
+          className={`flex-1 CustomScrollbarStyles ${
             theme.surface
           } overflow-y-auto p-4 ${getMessageSpacing()} transition-colors duration-300 border-x ${
             showSettings ? "" : "border-t"
@@ -436,19 +437,18 @@ export default function Chat() {
                           </div>
                         )}
                         <motion.div
+                        onClick={()=>setReplyingTo(message.message?.slice(0,50)+"...")}
                           whileHover={{ scale: 1.01 }}
-                          className={`${getBubbleStyle()} p-3 ${
+                          className={`${getBubbleStyle()} px-2 py-1 ${
                             isCurrentUser
                               ? `${theme.primary} text-white shadow-md`
                               : `${isDark ? "bg-gray-700" : "bg-gray-100"} ${
                                   theme.text
                                 } shadow-sm`
                           } transition-all duration-200`}
-                        >
+                        > 
                           {message.repliedTo && <p className="p-1 bg-gray-800 rounded-md">{message.repliedTo}</p>}
-                          <p className={`${getFontSize()}`}>
-                            {message.message}
-                          </p>
+                          <p className={`${getFontSize()}`}>{message.message}</p>
                           {settings.showTimestamps && (
                             <p
                               className={`text-xs mt-1 ${
@@ -466,7 +466,7 @@ export default function Chat() {
                   </motion.div>
                 );
               })}
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef}/>
 
               {/* Scroll to bottom button */}
               {chatContainerRef.current &&
@@ -489,14 +489,13 @@ export default function Chat() {
             </>
           )}
         </div>
-
         <motion.form
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.1 }}
           onSubmit={handleSendMessage}
-          className={`${theme.surface} shadow-md rounded-b-lg p-4 flex gap-2 transition-colors duration-300`}
-        >
+          className={`${theme.surface} relative shadow-md rounded-b-lg p-4 flex gap-2 transition-colors duration-300`}
+          >
           {replyingTo && <p className="flex items-center gap-1 absolute -top-8 right-5 bg-gray-700 px-2 py-1 rounded-t-md text-white">Replyingt to: {replyingTo} <X onClick={()=>setReplyingTo("")} className="cursor-pointer"/></p>}
           <input
             type="text"

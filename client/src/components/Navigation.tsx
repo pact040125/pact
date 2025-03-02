@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { LogOut, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
+import logo from "../assets/logo.png";
 
 export default function Navigation() {
   const user = localStorage.getItem("user");
@@ -10,13 +11,11 @@ export default function Navigation() {
       <header className="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <motion.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
-            >
-              PACT
-            </motion.h1>
+            <motion.img
+              src={logo}
+              alt="Logo"
+              className="w-32 h-32"
+            />
             <nav className="hidden md:flex space-x-8">
               {["Home", "Roadmaps", "Live sessions", "Interviews", "Quiz", "Q&As", "About"].map((item, i) => (
                 <motion.div
@@ -26,7 +25,7 @@ export default function Navigation() {
                   transition={{ delay: i * 0.1 }}
                 >
                   <Link
-                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    to={item === "Home" ? "/" : `/${item.toLowerCase().replaceAll(" ", "")}`}
                     className="text-gray-700 hover:text-indigo-600 transition-colors duration-200"
                   >
                     {item}
