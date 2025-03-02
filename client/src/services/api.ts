@@ -12,8 +12,8 @@ const api = axios.create({
 });
 
 const apiService = {
-  createUser: async (username: string, email: string, password: string, graduationYear: number, token:string, mobile:string) => {
-    return await api.post(`/users/register${token ? `?token=${token}` : ""}`, { username, email, password, graduationYear, mobile });
+  createUser: async (username: string, email: string, password: string, graduationYear: number, role: string, alumniRole: string, token:string, mobile:string) => {
+    return await api.post(`/users/register${token ? `?token=${token}` : ""}`, { username, email, password, graduationYear, role, alumniRole, mobile });
   },
 
   loginUser: async (email: string, password: string) => {
@@ -55,8 +55,8 @@ const apiService = {
   genrateInviteLink: async()=>{
     return await api.get("/users/generateInviteLink")
   },
-  addInterview:async(username:string, role:string,alumniRole:string,userId:Object, interviewDate:string, numberOfSlots:number, startTimes:Array<String>, interviewLink:string)=>{
-    return await api.post("/interview/addInterview",{username,role,alumniRole,userId,interviewDate,numberOfSlots,startTimes,interviewLink,})
+  addInterview:async(username:string, role:string,alumniRole:string,userId:Object, interviewDate:string, numberOfSlots:number, slots:Array<String>, interviewLink:string)=>{
+    return await api.post("/interview/addInterview",{username,role,alumniRole,userId,interviewDate,numberOfSlots,slots,interviewLink,})
   },
   getInterviews:async()=>{
     return await api.get("/interview/getInterview");

@@ -4,7 +4,7 @@ import Interview from "../models/Interviews";
 
 export const addInterview = async (req: Request, res: Response) => {
     try {
-        const { username, role, alumniRole, userId, interviewDate, numberOfSlots, startTimes, interviewLink } = req.body;
+        const { username, role, alumniRole, userId, interviewDate, numberOfSlots, slots, interviewLink } = req.body;
         console.log(req.body)
         const newInterview = new Interview({
             username,
@@ -13,7 +13,7 @@ export const addInterview = async (req: Request, res: Response) => {
             userId,
             interviewDate,
             numberOfSlots,
-            slots:startTimes,
+            slots:slots.map((time: string) => ({ startTime: time })),
             interviewLink
         });
 
@@ -51,7 +51,11 @@ export const bookInterview = async (req: Request, res: Response) => {
         await interview.save();
 
         res.json({ message: "Slot booked successfully" });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to book slot" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: "An unknown error occurred" });
+        }
     }
 }
