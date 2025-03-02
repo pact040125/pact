@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { Interview } from "../types";
-import Navigation from "../components/Navigation";
 
 const LiveSessions = (): React.ReactNode => {
     const userString = localStorage.getItem("user");
@@ -100,7 +99,6 @@ const LiveSessions = (): React.ReactNode => {
 
     return (
         <>
-            <Navigation />
             <div className="w-full min-h-[100vh] flex flex-col items-center p-6 bg-gray-100">
                 <div className="w-full max-w-5xl flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-[#5541E2]">Live Sessions Available Today</h2>

@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { SocialLink, DashBoard } from "../types";
 import apiService from "../services/api";
-import Navigation from "../components/Navigation";
 import { _admin } from "../services/user";
 
 export default function Dashboard() {
@@ -181,7 +180,6 @@ export default function Dashboard() {
   }
   return (
     <>
-      <Navigation />
       <div className="bg-white rounded-lg shadow">
         <div className="p-6 border-b flex justify-between items-center">
           <h2 className="text-2xl font-bold">User Profile</h2>

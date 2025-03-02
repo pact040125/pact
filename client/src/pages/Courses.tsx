@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, GraduationCap, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { Module } from "../types";
-import Navigation from "../components/Navigation";
 
 const modules: Module[] = [
   {
@@ -69,7 +68,6 @@ function Courses() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100">
-      <Navigation />
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

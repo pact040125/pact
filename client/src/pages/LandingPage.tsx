@@ -3,7 +3,6 @@ import { Course } from "../types";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Navigation from "../components/Navigation";
 
 const courses: Course[] = [
   {
@@ -113,7 +112,6 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
