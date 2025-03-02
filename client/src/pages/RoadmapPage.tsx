@@ -43,11 +43,11 @@ const RoadmapPage: React.FC = () => {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900">Course not found</h2>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/roadmaps")}
             className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Courses
+            Back to Roadmaps
           </button>
         </div>
       </div>
@@ -55,13 +55,13 @@ const RoadmapPage: React.FC = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="flex flex-col h-screen">
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <button
-                onClick={() => navigate("/roadmap-courses")}
+                onClick={() => navigate("/roadmaps")}
                 className="mr-4 inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 <ArrowLeft className="mr-1 h-4 w-4" />

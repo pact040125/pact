@@ -170,24 +170,6 @@ export function LandingPage() {
           </div>
         </div>
       </div>
-
-      <div ref={ref} className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-3xl font-extrabold text-gray-900 mb-12 text-center"
-          >
-            Featured Courses
-          </motion.h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {courses.map((course, index) => (
-              <CourseCard key={course.id} course={course} index={index} />
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

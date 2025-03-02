@@ -50,13 +50,13 @@ function UserQuiz() {
       <>
         {isAdmin && (
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleBackToAdmin}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
-          >
-            Create new Quiz
-          </motion.button>
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleBackToAdmin}
+        className="absolute right-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
+      >
+        Create new Quiz
+      </motion.button>
         )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -111,15 +111,14 @@ function UserQuiz() {
   return (
     <>
     {isAdmin && (
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleBackToAdmin}
-            className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
-          >
-            <Link to="/admin">Create new Quiz</Link>
-            
-          </motion.div>
+          <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleBackToAdmin}
+        className="absolute right-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
+      >
+        Create new Quiz
+      </motion.button>
         )}
       <motion.div
         initial={{ opacity: 0 }}

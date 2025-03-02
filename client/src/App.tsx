@@ -4,14 +4,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { AuthForm } from "./components/AuthForm";
 import { LandingPage } from "./pages/LandingPage";
 import Chat from "./pages/QandA";
 import UserQuiz from "./pages/UserQuiz";
 import Quiz from "./pages/Quiz";
 import QuizAdmin from "./pages/QuizAdmin";
-import Courses from "./pages/Courses";
+import CoursePage from "./pages/CoursePage";
 import Interviews from "./pages/Interviews";
 import Dashboard from "./pages/Dashboard";
 import AdminPage from "./pages/AdminPage";
@@ -33,25 +33,47 @@ function App() {
     <CourseProvider>
       <Router>
         <Navigation />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<AuthForm />} />
-            <Route path="/q&as" element={<PrivateRoute element={<Chat />} />} />
-            <Route path="/quiz/admin" element={<PrivateRoute element={<QuizAdmin />} />} />
-            <Route path="/quiz" element={<PrivateRoute element={<UserQuiz />} />} />
-            <Route path="/quiz/:title" element={<Quiz />} />
-            <Route path="/roadmaps" element={<PrivateRoute element={<Courses />} />} />
-            <Route path="/livesessions" element={<PrivateRoute element={<LiveSessions />} />} />
-            <Route path="/interviews" element={<PrivateRoute element={<Interviews />} />} />
-            <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
-            <Route path="/roadmap-courses" element={<PrivateRoute element={<RoadMapCoursesPage />} />} />
-            <Route path="/roadmap/:courseId" element={<RoadmapPage />} />
-            <Route path="/courses/:id" element={<CourseDetailPage />} />
-            <Route path="/courses/:id/content" element={<CourseContentPage />} />
-            <Route path="/admin-courses" element={<AdminPage />} />
-          </Routes>
-        </Suspense>
+        <div className="mt-16">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<AuthForm />} />
+          <Route path="/q&as" element={<PrivateRoute element={<Chat />} />} />
+          <Route
+            path="/quiz/admin"
+            element={<PrivateRoute element={<QuizAdmin />} />}
+          />
+          <Route
+            path="/quiz"
+            element={<PrivateRoute element={<UserQuiz />} />}
+          />
+          <Route path="/quiz/:title" element={<Quiz />} />
+          <Route
+            path="/courses"
+            element={<PrivateRoute element={<CoursePage />} />}
+          />
+          <Route
+            path="/livesessions"
+            element={<PrivateRoute element={<LiveSessions />} />}
+          />
+          <Route
+            path="/interviews"
+            element={<PrivateRoute element={<Interviews />} />}
+          />
+          <Route
+            path="/dashboard"
+            element={<PrivateRoute element={<Dashboard />} />}
+          />
+          <Route
+            path="/roadmaps"
+            element={<PrivateRoute element={<RoadMapCoursesPage />} />}
+          />
+          <Route path="/roadmap/:courseId" element={<RoadmapPage />} />
+          <Route path="/courses/:id" element={<CourseDetailPage />} />
+          <Route path="/courses/:id/content" element={<CourseContentPage />} />
+          <Route path="/admin-courses" element={<AdminPage />} />
+          
+        </Routes>
+        </div>
       </Router>
     </CourseProvider>
   );
