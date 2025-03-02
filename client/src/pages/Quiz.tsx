@@ -17,8 +17,6 @@ export default function Quiz() {
   const [questions, setQuestions] = useState<Omit<Question, "correct_answer">[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const onBackToAdmin = () => {};
-
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -50,7 +48,6 @@ export default function Quiz() {
 
   return (
     <>
-      <Navbar />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

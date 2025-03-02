@@ -1,14 +1,20 @@
-import { Question, Quiz } from "../types";
+import { Quiz } from "../types";
 import { AnimatePresence, motion } from "framer-motion";
-import Navbar from "../components/QuizNavbar";
+import { _admin } from "../services/user";
 import React, { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiService from "../services/api";
 
 function UserQuiz() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const isAdmin = _admin;
+
+  const handleBackToAdmin = () => {
+    navigate("/quiz/admin");
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -29,7 +35,6 @@ function UserQuiz() {
   if (loading) {
     return (
       <>
-        <Navbar />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -43,7 +48,16 @@ function UserQuiz() {
   if (quizzes.length === 0) {
     return (
       <>
-        <Navbar />
+        {isAdmin && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleBackToAdmin}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
+          >
+            Create new Quiz
+          </motion.button>
+        )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -96,7 +110,17 @@ function UserQuiz() {
 
   return (
     <>
-      <Navbar />
+    {isAdmin && (
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleBackToAdmin}
+            className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100"
+          >
+            <Link to="/admin">Create new Quiz</Link>
+            
+          </motion.div>
+        )}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

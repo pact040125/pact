@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { LogOut, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
-import logo from "../assets/logo.png?url";
+import logo from "../assets/logo.png";
 
 export default function Navigation() {
   const user = localStorage.getItem("user");
